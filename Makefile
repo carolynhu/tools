@@ -19,6 +19,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include docker/istio-dev/istio-dev.mk
+
 RUN =
 
 # Set the enviornment variable BUILD_WITH_CONTAINER to use a container

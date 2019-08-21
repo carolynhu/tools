@@ -35,7 +35,7 @@ function install_prometheus() {
     kubectl wait --for=condition=Established -f https://raw.githubusercontent.com/coreos/prometheus-operator/master/example/prometheus-operator-crd/prometheusrule.crd.yaml
     kubectl wait --for=condition=Established -f https://raw.githubusercontent.com/coreos/prometheus-operator/master/example/prometheus-operator-crd/servicemonitor.crd.yaml
 
-    kubectl apply --namespace istio-prometheus -f "${PROM_OP}"
+    kubectl apply --namespace kube-system -f "${PROM_OP}"
 
     # delete grafana pod so it redeploys with new config
     kubectl delete pod -l app=grafana

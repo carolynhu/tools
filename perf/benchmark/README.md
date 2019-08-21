@@ -46,7 +46,9 @@ kubectl get pods -n istio-system
 export NAMESPACE=twopods
 kubectl create namespace $NAMESPACE
 kubectl label namespace $NAMESPACE istio-injection=enabled
-DNS_DOMAIN=local ./setup_test.sh
+export DNS_DOMAIN=local 
+cd ../benchmark 
+./setup_test.sh
 ```
 
 ## Prepare Python Environment 

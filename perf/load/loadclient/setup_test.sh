@@ -15,14 +15,14 @@
 # limitations under the License.
 
 # shellcheck disable=SC2086
-WD=$(dirname $0)
-WD=$(cd "${WD}"; pwd)
-cd "${WD}"
-
 set -ex
 
+WD=$(dirname $0)
+WD=$(cd "${WD}" && pwd)
+cd "${WD}"
+
 NAMESPACE=${1:?"namespace"}
-NAMEPREFIX=${2:?"prefix name for service. typically svc-"}
+SERVICENAMEPREFIX=${2:?"prefix name for service. typically svc-"}
 
 HTTPS=${HTTPS:-"false"}
 
@@ -32,7 +32,7 @@ INGRESS_GATEWAY_URL=$(kubectl -n istio-ingress get service istio-ingressgateway 
 GATEWAY_URL=${SYSTEM_GATEWAY_URL:-$INGRESS_GATEWAY_URL}
 fi
 
-SERVICEHOST="${NAMEPREFIX}0.local"
+SERVICEHOST="${SERVICENAMEPREFIX}0.local"
 
 function run_test() {
   YAML=$(mktemp).yml

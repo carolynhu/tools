@@ -26,7 +26,7 @@ function run_test() {
   local ns=${1:?"namespaces"}
   local prefix=${2:?"prefix name for service. typically svc-"}
 
-   YAML=$(mktemp).yml
+  YAML=$(mktemp).yml
   # shellcheck disable=SC2086
   helm -n ${ns} template \
           --set serviceNamePrefix="${prefix}" \
@@ -41,7 +41,7 @@ function run_test() {
   kubectl label namespace "${ns}" istio-injection=enabled --overwrite
   kubectl label namespace "${ns}" istio-env=istio-control --overwrite
 
-   if [[ -z "${DELETE}" ]];then
+  if [[ -z "${DELETE}" ]];then
     sleep 3
     kubectl -n "${ns}" apply -f "${YAML}"
   else
@@ -51,11 +51,11 @@ function run_test() {
 }
 
 function start_servicegraphs() {
-  local nn=${1:?"number of namespaces"}
+  local nn=${1:?"missing the number of namespaces"}
   local min=${2:-"0"}
 
-   # shellcheck disable=SC2004
-   for ((ii=$min; ii<$nn; ii++)) {
+  # shellcheck disable=SC2004
+  for ((ii=$min; ii<$nn; ii++)) {
     ns=$(printf 'service-graph%.2d' $ii)
     prefix=$(printf 'svc%.2d-' $ii)
     if [[ -z "${DELETE}" ]];then
@@ -65,7 +65,6 @@ function start_servicegraphs() {
       ${CMD} "${WD}/loadclient/setup_test.sh" "${ns}" "${prefix}"
       ${CMD} run_test "${ns}" "${prefix}"
     fi
-
     sleep 30
   }
 }

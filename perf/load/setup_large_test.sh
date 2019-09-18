@@ -17,11 +17,11 @@
 # This script spins up the standard 20 services per namespace test for as many namespaces
 # as desired.
 # shellcheck disable=SC2086
-WD=$(dirname $0)
-WD=$(cd "${WD}"; pwd)
-cd "${WD}"
-
 set -ex
+
+WD=$(dirname $0)
+WD=$(cd "${WD}" && pwd)
+cd "${WD}"
 
 # shellcheck disable=SC1091
 source common.sh

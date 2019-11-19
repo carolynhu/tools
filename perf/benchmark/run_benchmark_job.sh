@@ -128,6 +128,7 @@ popd
 cd "${WD}/runner"
 pipenv install
 
+ISTIO_INJECT="true"
 # setup test
 pushd "${WD}"
 ./setup_test.sh

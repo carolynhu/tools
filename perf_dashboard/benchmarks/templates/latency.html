@@ -33,6 +33,22 @@
         </header>
         <div class="row">
             <div class="col-lg-6">
+{#              <form action="" method="POST" class="form-horizontal">#}
+{#                    {% csrf_token %}#}
+{#                    <div class="form-group row">#}
+{#                            <label class="col-sm-3 form-control-label">Istio-1.4 Release Builds (last 7 days builds)</label>#}
+{#                            <div class="col-sm-9">#}
+{#                                <select name="cur_istio_release_abc" class="form-control mb-3">#}
+{#                                  <option> --- </option>#}
+{#                                  {% for release in cur_release_names %}#}
+{#                                  <option>{{ release }}</option>#}
+{#                                  {% endfor %}#}
+{#                                            <input type="submit" class="button">#}
+{##}
+{#                                </select></div>#}
+{#                        </div>#}
+{#                    <div class="line"></div>#}
+{#                </form>#}
               <div class="card">
                 <div class="card-header d-flex align-items-center">
                   <h4>Istio-1.4: P50, 1000QPS over 240 seconds</h4>  <!-- todo: pass a date -->
@@ -43,6 +59,21 @@
               </div>
             </div>
             <div class="col-lg-6">
+{#                <form method="post" class="form-horizontal">#}
+{#                    <div class="form-group row">#}
+{#                            <label class="col-sm-3 form-control-label">Istio-master Release Builds</label>#}
+{#                            <div class="col-sm-9">#}
+{#                                <select name="cur_istio_master" class="form-control mb-3">#}
+{#                                  <option> --- </option>#}
+{#                                  {% for release in master_release_names %}#}
+{#                                  <option>{{ release }}</option>#}
+{#                                  {% endfor %}#}
+{#                                </select>#}
+{#                                <small class="help-block-none">(Choose from the latest 7 days builds)</small>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    <div class="line"></div>#}
+{#                </form>#}
               <div class="card">
                 <div class="card-header d-flex align-items-center">
                   <h4>Istio-master: P50, 1000QPS over 240 seconds</h4>
@@ -99,6 +130,9 @@
 
 {% block page_data %}
     <script>
+        cur_release_names = {{ cur_release_names|safe }};
+        master_release_names = {{ master_release_names|safe }};
+        master_filenames = {{ master_filenames|safe }};
         latency_mixer_base_p50 = {{ latency_mixer_base_p50|safe }};
         latency_mixer_serveronly_p50 = {{ latency_mixer_serveronly_p50|safe }};
         latency_mixer_both_p50 = {{ latency_mixer_both_p50|safe }};

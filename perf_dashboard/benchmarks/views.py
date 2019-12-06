@@ -14,12 +14,29 @@
 
 from django.shortcuts import render
 import pandas as pd
+from . import download
+import os
+
+cwd = os.getcwd()
+print(cwd)
+perf_data_path = cwd + "/perf_data/"
+current_release = "release-1.4"
 
 
 # Create your views here.
 def latency(request):
     # Parse data for the current release
+    cur_release_names, master_release_names = download.download_benchmark_csv()
+    download.delete_outdated_file()
+    # filename = ""
+    # if request.method == "POST":
+    #     print("=========")
+    #     filename = request.POST['cur_istio_release_abc']
+    #     print(filename)
+    # print(request.GET[])
+    # df = pd.read_csv(perf_data_path + filename + "-benchmark.csv")
     df = pd.read_csv("/Users/carolynprh/PycharmProjects/perf_dashboard/perf_data/tmp3f9jejbf.csv")
+
     latency_mixer_base_p50 = get_latency_y_series(df, '_mixer_base', 'p50')
     latency_mixer_serveronly_p50 = get_latency_y_series(df, '_mixer_serveronly', 'p50')
     latency_mixer_both_p50 = get_latency_y_series(df, '_mixer_both', 'p50')
@@ -70,7 +87,9 @@ def latency(request):
     latency_v2_serveronly_p99_master = get_latency_y_series(df, 'nullvm_serveronly', 'p99')
     latency_v2_both_p99_master = get_latency_y_series(df, 'nullvm_both', 'p99')
 
-    context = {'latency_mixer_base_p50': latency_mixer_base_p50,
+    context = {'cur_release_names': cur_release_names,
+               'master_release_names': master_release_names,
+               'latency_mixer_base_p50': latency_mixer_base_p50,
                'latency_mixer_serveronly_p50': latency_mixer_serveronly_p50,
                'latency_mixer_both_p50': latency_mixer_both_p50,
                'latency_nomixer_serveronly_p50': latency_nomixer_serveronly_p50,
@@ -231,12 +250,3 @@ def get_mem_y_series(df, mixer_mode):
     print(y_series_data)
     return y_series_data
 
-
-def download_csv():
-    from google.cloud import storage
-    client = storage.Client()
-    # https://console.cloud.google.com/storage/browser/[bucket-id]/
-    bucket = client.get_bucket('bucket-id-here')
-    # Then do other things...
-    blob = bucket.get_blob('remote/path/to/file.txt')
-    print(blob.download_as_string())

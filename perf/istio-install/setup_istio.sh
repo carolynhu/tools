@@ -113,6 +113,7 @@ function install_istio_with_helm() {
   # shellcheck disable=SC2086
   helm template --name istio --namespace istio-system \
        ${opts} \
+       --set global.proxy.accessLogFile="/dev/stdout" \
        --values ${values} \
        ${extravalues} \
        "${DIRNAME}/${release}/istio" > "${FILENAME}"

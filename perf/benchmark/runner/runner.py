@@ -327,7 +327,7 @@ def fortio_from_config_file(args):
         fortio.duration = job_config.get('duration', 240)
         fortio.telemetry_mode = job_config.get('telemetry_mode', 'mixer')
         fortio.metrics = job_config.get('metrics', 'p90')
-        fortio.size = job_config.get('size', 1024)
+        fortio.size = job_config.get('size', 2048)
         fortio.perf_record = job_config.get('perf_record', False)
         fortio.run_serversidecar = job_config.get('run_serversidecar', False)
         fortio.run_clientsidecar = job_config.get('run_clientsidecar', False)
@@ -360,8 +360,7 @@ def run(args):
             ingress=args.ingress,
             mode=args.mode,
             mesh=args.mesh,
-            telemetry_mode=args.telemetry_mode,
-            cacert=args.cacert)
+            telemetry_mode=args.telemetry_mode)
 
     if fortio.duration <= min_duration:
         print("Duration must be greater than {min_duration}".format(
@@ -396,7 +395,7 @@ def get_parser():
         "--size",
         help="size of the payload",
         type=int,
-        default=1024)
+        default=2048)
     parser.add_argument(
         "--mesh",
         help="istio or linkerd",

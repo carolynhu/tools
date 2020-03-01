@@ -71,6 +71,11 @@ metadata:
     app: {{ $.name }}
   name: {{ $.name }}
 spec:
+{{- if eq $.name "fortioclient" }}
+  replicas: 1
+{{- else }}
+  replicas: 20
+{{- end }}
   selector:
     matchLabels:
       app: {{ $.name }}
@@ -101,20 +106,6 @@ spec:
       labels:
         app: {{ $.name }}
     spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-{{- if eq $.name "fortioclient" }}
-                - "fortioserver"
-{{- else }}
-                - "fortioclient"
-{{- end }}
-            topologyKey: "kubernetes.io/hostname"
       volumes:
       - name: shared-data
         emptyDir: {}

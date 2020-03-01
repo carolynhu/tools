@@ -12,10 +12,11 @@ global:
     accessLogFile: ""
     resources:
       requests:
-        cpu: 250m
-        memory: 256Mi
+        cpu: 100m
+        memory: 128Mi
       limits:
-        memory: 256Mi 
+        cpu: 2000m
+        memory: 1000Mi
 
     envoyAccessLogService:
       enabled: false
@@ -72,16 +73,16 @@ gateways:
       ver: ingress10
       app: istio-ingressgateway
       name: gateway
-    replicas: 3
-    autoscaleMin: 3
-    autoscaleMax: 5
+    replicas: 10
+    autoscaleMin: 10
+    autoscaleMax: 10
     resources:
       limits:
-        cpu: 6000m
-        memory: 512Mi
+        cpu: 10000m
+        memory: 1000Mi
       requests:
-        cpu: 4000m
-        memory: 512Mi
+        cpu: 5000m
+        memory: 200Mi
     type: LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be
 
 pilot:

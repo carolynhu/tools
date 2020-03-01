@@ -5,13 +5,13 @@ includeOutboundIPRanges: ""
 appresources: {}
 
 proxy:
-  cpu: "1000m"
-  memory: "512m"
+  cpu: "100m"
+  memory: "128Mi"
 
 appresources1:
   requests:
-    cpu: "800m"
-    memory: "1000m"
+    cpu: "5000m"
+    memory: "1000Mi"
 
 fortioImage: fortio/fortio:latest_release
 curlImage: tutum/curl:trusty

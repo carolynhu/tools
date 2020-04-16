@@ -168,7 +168,7 @@ function install_istio() {
   if [[ ! -d "${DIRNAME}/${release}" ]];then
       DN=$(mktemp -d)
       tar -xzf "${outfile}" -C "${DN}" --strip-components 1
-      if [[ -z "${INSTALL_WITH_ISTIOCTL}" ]]; then
+      if ${!INSTALL_WITH_ISTIOCTL:-true}; then
         mv "${DN}/install/kubernetes/helm" "${DIRNAME}/${release}"
       fi
       cp "${DN}/bin/istioctl" "${DIRNAME}"

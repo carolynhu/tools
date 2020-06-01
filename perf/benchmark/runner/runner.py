@@ -21,12 +21,13 @@ import argparse
 import subprocess
 import shlex
 import uuid
+from subprocess import getoutput
 from fortio import METRICS_START_SKIP_DURATION, METRICS_END_SKIP_DURATION
 
 POD = collections.namedtuple('Pod', ['name', 'namespace', 'ip', 'labels'])
 
 
-def pod_info(filterstr="", namespace="twopods", multi_ok=True):
+def pod_info(filterstr="", namespace="twopods-istio", multi_ok=True):
     cmd = "kubectl -n {namespace} get pod {filterstr}  -o json".format(
         namespace=namespace, filterstr=filterstr)
     op = subprocess.check_output(shlex.split(cmd))
@@ -50,7 +51,7 @@ def run_command(command):
 
 
 def run_command_sync(command):
-    op = subprocess.check_output(command, shell=True)
+    op = getoutput(command)
     return op.strip()
 
 
@@ -87,7 +88,7 @@ class Fortio():
         self.size = size
         self.duration = duration
         self.mode = mode
-        self.ns = os.environ.get("NAMESPACE", "twopods")
+        self.ns = os.environ.get("NAMESPACE", "twopods-istio")
         # bucket resolution in seconds
         self.r = "0.00005"
         self.mixer = mixer
@@ -228,12 +229,12 @@ def perf(mesh, pod, labels, duration=20, runfn=run_command_sync):
 
     print(perf)
     kubecp(mesh, pod + ":" + filepath + ".perf", filename + ".perf")
-    run_command_sync("./flame.sh " + filename + ".perf")
+    run_command_sync("/Users/carolynprh/istio-all/tools/perf/benchmark/flame/flame.sh " + "/Users/carolynprh/istio-all/tools/perf/benchmark/runner/"+filename + ".perf")
     return perf
 
 
 def kubecp(mesh, from_file, to_file):
-    namespace = os.environ.get("NAMESPACE", "twopods")
+    namespace = os.environ.get("NAMESPACE", "twopods-istio")
     cmd = "kubectl --namespace {namespace} cp {from_file} {to_file} -c {mesh}-proxy".format(
         namespace=namespace,
         from_file=from_file,
@@ -244,7 +245,7 @@ def kubecp(mesh, from_file, to_file):
 
 
 def kubectl(pod, remote_cmd, runfn=run_command, container=None):
-    namespace = os.environ.get("NAMESPACE", "twopods")
+    namespace = os.environ.get("NAMESPACE", "twopods-istio")
     c = ""
     if container is not None:
         c = "-c " + container

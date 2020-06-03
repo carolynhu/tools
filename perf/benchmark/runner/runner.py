@@ -178,7 +178,7 @@ class Fortio():
                 perf(self.mesh,
                      self.server.name,
                      labels + "_srv_ingress",
-                     duration=40)
+                     duration=240)
             p.wait()
 
         if self.run_serversidecar:
@@ -188,7 +188,7 @@ class Fortio():
                     self.mesh,
                     self.server.name,
                     labels + "_srv_serveronly",
-                    duration=40)
+                    duration=240)
             p.wait()
 
         if self.run_clientsidecar:
@@ -197,7 +197,7 @@ class Fortio():
                 perf(self.mesh,
                      self.server.name,
                      labels + "_srv_bothsidecars",
-                     duration=40)
+                     duration=240)
             p.wait()
 
         if self.run_baseline:
@@ -210,7 +210,7 @@ PERFSH = "get_perfdata.sh"
 PERFWD = "/etc/istio/proxy/"
 
 
-def perf(mesh, pod, labels, duration=20, runfn=run_command_sync):
+def perf(mesh, pod, labels, duration=240, runfn=run_command_sync):
     filename = labels + "_perf.data"
     filepath = PERFWD + filename
     perfpath = PERFWD + PERFSH
